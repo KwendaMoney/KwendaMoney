@@ -14,4 +14,4 @@ COPY --from=build /app/out .
 
 EXPOSE 80
 
-ENTRYPOINT ["dotnet", "KwendaMoney.csproj"]
+ENTRYPOINT ["dotnet", "KwendaMoney.dll"]
