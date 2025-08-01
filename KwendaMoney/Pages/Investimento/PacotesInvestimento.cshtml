@@ -1,0 +1,84 @@
+﻿@page
+@model KwendaMoney.Pages.Investimento.PacotesInvestimentoModel
+@{
+    ViewData["Title"] = "Pacotes de Investimento";
+}
+
+<h2 class="text-center my-4">Pacotes de Investimento</h2>
+
+@if (Model.InvestimentoAtivo != null)
+{
+    <div class="alert alert-warning text-center">
+        Você já possui um investimento ativo no pacote <strong>@Model.InvestimentoAtivo.Pacote?.Nome</strong>.<br />
+        Encerre o investimento atual antes de contratar outro.
+    </div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var pacote in Model.Pacotes)
+        {
+            string iconClass = "";
+            string iconColor = "";
+            string bgColor = "";
+
+            switch (pacote.Nome.ToLower())
+            {
+                case "ouro":
+                    iconClass = "bi bi-coin";
+                    iconColor = "color: #FFD700;"; // Dourado
+                    bgColor = "background-color: #fff9e6;";
+                    break;
+                case "platina":
+                    iconClass = "bi bi-trophy"; // Novo ícone
+                    iconColor = "color: #00CED1;"; // Turquesa vibrante
+                    bgColor = "background-color: #e0ffff;";
+                    break;
+                case "diamante":
+                    iconClass = "bi bi-gem";
+                    iconColor = "color: #1E90FF;"; // Azul vibrante
+                    bgColor = "background-color: #e6f2ff;";
+                    break;
+                case "titânio":
+                    iconClass = "bi bi-shield-lock";
+                    iconColor = "color: #4B0082;"; // Índigo forte e marcante
+                    bgColor = "background-color: #ede6f7;"; // Lavanda fria
+                    break;
+                case "prata":
+                    iconClass = "bi bi-award";
+                    iconColor = "color: #b0b0b0;"; // Prata viva
+                    bgColor = "background-color: #f0f0f0;";
+                    break;
+                case "básico":
+                    iconClass = "bi bi-star";
+                    iconColor = "color: #4169E1;"; // Azul royal
+                    bgColor = "background-color: #e7f0ff;";
+                    break;
+                default:
+                    iconClass = "bi bi-box";
+                    iconColor = "color: gray;";
+                    bgColor = "background-color: #f8f9fa;";
+                    break;
+            }
+
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0 rounded-4 text-center" style="@bgColor">
+                    <div class="card-body d-flex flex-column">
+                        <div class="mb-3">
+                            <i class="@iconClass fs-1" style="@iconColor"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">@pacote.Nome</h5>
+                        <p><strong>Valor:</strong> AOA @pacote.Valor.ToString("N2")</p>
+                        <p><strong>Lucro Diário:</strong> AOA @pacote.LucroDiario.ToString("N2")</p>
+                        <p><strong>Duração:</strong> @pacote.DiasMaximos dias</p>
+                        <a asp-page="/Investimento/ConfirmarInvestimento"
+                           asp-route-pacoteId="@pacote.Id"
+                           class="btn btn-success text-white fw-bold px-4 rounded-pill mt-auto">
+                            Investir Agora
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

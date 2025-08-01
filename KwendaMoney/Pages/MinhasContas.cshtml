@@ -1,0 +1,137 @@
+﻿@page
+@model KwendaMoney.Pages.MinhasContasModel
+@{
+    ViewData["Title"] = "Minhas Contas";
+}
+
+<div class="container py-4">
+    <div class="card shadow rounded-4">
+        <div class="card-body">
+            <h2 class="card-title mb-4 text-primary-emphasis">
+                <i class="bi bi-credit-card"></i> Minhas Contas Bancárias / Multicaixa
+            </h2>
+
+            <form method="post">
+                <div class="row g-2 mb-3">
+                    <div class="col-md-3">
+                        <input asp-for="NovaConta.NomeBancoOuOperadora" class="form-control rounded-3" placeholder="Banco ou Operadora" />
+                    </div>
+                    <div class="col-md-3">
+                        <input asp-for="NovaConta.NomeTitular" class="form-control rounded-3" readonly />
+                    </div>
+                    <div class="col-md-3">
+                        <input asp-for="NovaConta.NumeroOuIban" class="form-control rounded-3" placeholder="IBAN ou Número" />
+                    </div>
+                    <div class="col-md-2">
+                        <select asp-for="NovaConta.Tipo" class="form-select rounded-3">
+                            <option value="">Tipo</option>
+                            <option value="IBAN">IBAN</option>
+                            <option value="MulticaixaExpress">Multicaixa Express</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1">
+                        <button type="submit" class="btn btn-primary w-100 rounded-3">+</button>
+                    </div>
+                </div>
+            </form>
+
+            @if (Model.ContasExistentes.Any())
+            {
+                    <div class="table-responsive mt-4">
+                        <table class="table table-hover table-striped align-middle rounded-3 overflow-hidden">
+                            <thead class="table-primary text-center">
+                                <tr>
+                                    <th>Banco</th>
+                                    <th>Titular</th>
+                                    <th>Número/IBAN</th>
+                                    <th>Tipo</th>
+                                    <th style="width: 120px;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var conta in Model.ContasExistentes)
+                            {
+                                    <tr>
+                                        <td>@conta.NomeBancoOuOperadora</td>
+                                        <td>@conta.NomeTitular</td>
+                                        <td>@conta.NumeroOuIban</td>
+                                        <td>@conta.Tipo</td>
+                                        <td class="text-center">
+                                            <button type="button"
+                                                    class="btn btn-sm btn-warning rounded-3"
+                                                    onclick="abrirModalEdicao(
+                                                '@conta.Id',
+                                                '@conta.NomeBancoOuOperadora',
+                                                '@conta.NomeTitular',
+                                                '@conta.NumeroOuIban',
+                                                '@conta.Tipo')">
+                                                Editar
+                                            </button>
+
+                                            <form method="post" asp-page-handler="Excluir" asp-route-id="@conta.Id" class="d-inline">
+                                                <button type="submit" class="btn btn-sm btn-danger rounded-3">Excluir</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow">
+            <form method="post" asp-page-handler="EditarConta">
+                <div class="modal-header bg-primary text-white rounded-top-4">
+                    <h5 class="modal-title" id="editarModalLabel">Editar Conta</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="NovaConta.Id" id="editId" />
+                    <div class="mb-3">
+                        <label class="form-label">Banco ou Operadora</label>
+                        <input type="text" class="form-control rounded-3" name="NovaConta.NomeBancoOuOperadora" id="editBanco" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nome do Titular</label>
+                        <input type="text" class="form-control rounded-3" name="NovaConta.NomeTitular" id="editTitular" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Número ou IBAN</label>
+                        <input type="text" class="form-control rounded-3" name="NovaConta.NumeroOuIban" id="editNumero" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tipo</label>
+                        <select class="form-select rounded-3" name="NovaConta.Tipo" id="editTipo" required>
+                            <option value="IBAN">IBAN</option>
+                            <option value="MulticaixaExpress">Multicaixa Express</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary rounded-3">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+        <script>
+            function abrirModalEdicao(id, banco, titular, numero, tipo) {
+                document.getElementById("editId").value = id;
+                document.getElementById("editBanco").value = banco;
+                document.getElementById("editTitular").value = titular;
+                document.getElementById("editNumero").value = numero;
+                document.getElementById("editTipo").value = tipo;
+                var modal = new bootstrap.Modal(document.getElementById('editarModal'));
+                modal.show();
+            }
+        </script>
+}

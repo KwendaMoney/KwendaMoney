@@ -1,0 +1,58 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\chizi\\source\\repos\\KwendaMoney\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DF48BC29-B991-405F-9032-C02B6F6E9E71}|KwendaMoney\\KwendaMoney.csproj|c:\\users\\chizi\\source\\repos\\kwendamoney\\kwendamoney\\pages\\deposito.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF48BC29-B991-405F-9032-C02B6F6E9E71}|KwendaMoney\\KwendaMoney.csproj|solutionrelative:kwendamoney\\pages\\deposito.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF48BC29-B991-405F-9032-C02B6F6E9E71}|KwendaMoney\\KwendaMoney.csproj|c:\\users\\chizi\\source\\repos\\kwendamoney\\kwendamoney\\pages\\deposito.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{DF48BC29-B991-405F-9032-C02B6F6E9E71}|KwendaMoney\\KwendaMoney.csproj|solutionrelative:kwendamoney\\pages\\deposito.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 300,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Deposito.cshtml.cs",
+              "DocumentMoniker": "C:\\Users\\chizi\\source\\repos\\KwendaMoney\\KwendaMoney\\Pages\\Deposito.cshtml.cs",
+              "RelativeDocumentMoniker": "KwendaMoney\\Pages\\Deposito.cshtml.cs",
+              "ToolTip": "C:\\Users\\chizi\\source\\repos\\KwendaMoney\\KwendaMoney\\Pages\\Deposito.cshtml.cs*",
+              "RelativeToolTip": "KwendaMoney\\Pages\\Deposito.cshtml.cs*",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAmwGQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-31T05:55:38.061Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Deposito.cshtml",
+              "DocumentMoniker": "C:\\Users\\chizi\\source\\repos\\KwendaMoney\\KwendaMoney\\Pages\\Deposito.cshtml",
+              "RelativeDocumentMoniker": "KwendaMoney\\Pages\\Deposito.cshtml",
+              "ToolTip": "C:\\Users\\chizi\\source\\repos\\KwendaMoney\\KwendaMoney\\Pages\\Deposito.cshtml",
+              "RelativeToolTip": "KwendaMoney\\Pages\\Deposito.cshtml",
+              "ViewState": "AgIAADcAAAAAAAAAAAAmwEwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-31T05:55:18.649Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

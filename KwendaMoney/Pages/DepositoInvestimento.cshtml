@@ -1,0 +1,30 @@
+﻿@page
+@model KwendaMoney.Pages.DepositoInvestimentoModel
+@{
+    ViewData["Title"] = "Depositar na Carteira de Investimento";
+}
+
+<h2>Depositar na Carteira de Investimento</h2>
+
+@if (!string.IsNullOrEmpty(Model.MensagemErro))
+{
+<div class="alert alert-danger">@Model.MensagemErro</div>
+}
+else if (!string.IsNullOrEmpty(Model.MensagemSucesso))
+{
+<div class="alert alert-success">@Model.MensagemSucesso</div>
+}
+
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="Input.Valor" class="form-label">Valor a transferir (AOA)</label>
+        <input asp-for="Input.Valor" class="form-control" type="number" min="1" step="0.01" />
+        <span asp-validation-for="Input.Valor" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Depositar</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

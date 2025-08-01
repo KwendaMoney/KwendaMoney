@@ -1,0 +1,103 @@
+﻿@page
+@model KwendaMoney.Pages.Investimento.TarefaInvestimentoModel
+@{
+    ViewData["Title"] = "Tarefa Diária - Carteira de Investimento";
+}
+
+<div class="container py-4">
+    <h2 class="mb-4 text-center text-primary">Tarefa Diária - Carteira de Investimento</h2>
+
+    @if (!string.IsNullOrEmpty(Model.Mensagem))
+    {
+            <div class="alert alert-info text-center">@Model.Mensagem</div>
+    }
+
+    @if (Model.Carteira != null)
+    {
+            <div class="card shadow-sm p-4 mb-4">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <h4 class="text-success">Pacote: @Model.Carteira.Pacote.Nome</h4>
+                        <p><strong>Valor Investido:</strong> AOA @Model.Carteira.ValorInvestido.ToString("N2")</p>
+                        <p><strong>Lucro Atual:</strong> AOA @Model.Carteira.LucroGerado.ToString("N2")</p>
+                        <p><strong>Lucro Diário:</strong> AOA @Model.Carteira.Pacote.LucroDiario.ToString("N2")</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <p><strong>Dias Concluídos:</strong> @Model.Carteira.DiasAcumulados / @Model.Carteira.Pacote.DiasMaximos</p>
+                        <p><strong>Última Tarefa:</strong> @Model.Carteira.DataUltimaTarefa.ToString("dd/MM/yyyy")</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botões de ação -->
+            <div class="d-flex flex-wrap gap-3 mb-4">
+                <!-- Botão Tarefa -->
+                <form method="post" asp-page-handler="Tarefa">
+                    <button type="submit" class="btn btn-success"
+                @(Model.Carteira.DataUltimaTarefa.Date == DateTime.Now.Date || Model.Carteira.DiasAcumulados >= Model.Carteira.Pacote.DiasMaximos ? "disabled" : "")>
+                        <i class="fas fa-bolt"></i> Realizar Tarefa do Dia
+                    </button>
+                </form>
+
+                <!-- Botão Sacar Lucro -->
+                <form method="post" asp-page-handler="SacarLucro">
+                @{
+                    var valorTotal = Model.Carteira.ValorInvestido + Model.Carteira.LucroGerado;
+                    var taxa = valorTotal * 0.10m;
+                    var liquido = valorTotal - taxa;
+                    var saquePermitido = Model.Carteira.LucroGerado >= (Model.Carteira.ValorInvestido * 0.5m);
+                }
+                    <button type="submit" class="btn btn-primary"
+                            data-bs-toggle="tooltip"
+                            title="Saque de AOA @liquido.ToString("N2") (com taxa de 10%)"
+                @(saquePermitido ? "" : "disabled")>
+                        <i class="fas fa-money-bill-wave"></i> Sacar Investimento
+                    </button>
+                </form>
+
+                <!-- Botão Cancelar -->
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalCancelar">
+                    <i class="fas fa-times-circle"></i> Cancelar Investimento
+                </button>
+            </div>
+
+            <!-- Modal de Confirmação -->
+            <div class="modal fade" id="modalCancelar" tabindex="-1" aria-labelledby="modalCancelarLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content rounded-3">
+                        <form method="post" asp-page-handler="Cancelar">
+                            <div class="modal-header bg-danger text-white">
+                                <h5 class="modal-title" id="modalCancelarLabel">Confirmar Cancelamento</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                            </div>
+                            <div class="modal-body">
+                                Tem certeza que deseja cancelar o investimento? Todo o lucro acumulado será perdido
+                                e você receberá apenas o valor investido com uma taxa de 10% aplicada.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="submit" class="btn btn-danger">Sim, Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    }
+    else
+    {
+            <div class="alert alert-warning text-center">
+                Nenhum investimento ativo encontrado.
+            </div>
+    }
+</div>
+
+@section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+                new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        </script>
+}

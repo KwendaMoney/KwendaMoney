@@ -1,0 +1,10 @@
+﻿@page
+@model KwendaMoney.Pages.Account.ConfirmEmailModel
+@{
+    ViewData["Title"] = "Confirmação de E-mail";
+}
+
+<div class="alert alert-info mt-5">
+    <h4>@Model.StatusMessage</h4>
+    <a href="/Identity/Account/Login" class="btn btn-primary mt-3">Ir para o Login</a>
+</div>

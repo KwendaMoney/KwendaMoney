@@ -1,0 +1,43 @@
+﻿@page
+@model KwendaMoney.Pages.DashboardModel
+@{
+    ViewData["Title"] = "Painel do Usuário";
+}
+
+<div class="container py-5">
+    <h2 class="mb-4 fw-bold text-center text-primary">Meus Dados</h2>
+
+    @if (Model.UsuarioAtual != null)
+    {
+            <div class="card shadow-lg rounded-4">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-6 fw-semibold text-muted">Nome:</div>
+                        <div class="col-6 text-end">@Model.UsuarioAtual.Nome</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6 fw-semibold text-muted">Email:</div>
+                        <div class="col-6 text-end">@Model.UsuarioAtual.Email</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6 fw-semibold text-muted">Carteira Geral:</div>
+                        <div class="col-6 text-end text-success fw-bold">
+                        @Model.UsuarioAtual.SaldoCarteiraGeral.ToString("C")
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 fw-semibold text-muted">Carteira de Investimento:</div>
+                        <div class="col-6 text-end text-primary fw-bold">
+                        @Model.UsuarioAtual.SaldoCarteiraInvestimento.ToString("C")
+                        </div>
+                    </div>
+                </div>
+            </div>
+    }
+    else
+    {
+            <div class="alert alert-danger mt-4 text-center">
+                Usuário não encontrado.
+            </div>
+    }
+</div>

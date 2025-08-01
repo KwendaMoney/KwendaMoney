@@ -1,0 +1,89 @@
+﻿@page
+@model KwendaMoney.Pages.Admin.RelatorioFinanceiroModel
+@{
+    ViewData["Title"] = "Relatório Financeiro da Plataforma";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+
+<div class="container my-4">
+    <h2 class="mb-4 text-center">📊 Relatório Financeiro da Plataforma</h2>
+
+    <!-- Filtro de período (placeholder para futuro uso) -->
+    <div class="d-flex justify-content-end mb-3">
+        <select class="form-select w-auto" aria-label="Filtrar por período">
+            <option selected>Período: Mês atual</option>
+            <option>Hoje</option>
+            <option>Últimos 7 dias</option>
+            <option>Últimos 30 dias</option>
+            <option>Todos os períodos</option>
+        </select>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+            <div class="card border-0 shadow rounded-4 h-100">
+                <div class="card-body">
+                    <h6 class="card-title text-muted"><i class="bi bi-wallet2 me-2"></i>Lucro - Saque Carteira Geral</h6>
+                    <p class="h5 text-primary">AOA @Model.Relatorio.LucroTaxaSaqueCarteiraGeral.ToString("N2")</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card border-0 shadow rounded-4 h-100">
+                <div class="card-body">
+                    <h6 class="card-title text-muted"><i class="bi bi-piggy-bank me-2"></i>Lucro - Saque Investimento</h6>
+                    <p class="h5 text-primary">AOA @Model.Relatorio.LucroTaxaSaqueCarteiraInvestimento.ToString("N2")</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card border-0 shadow rounded-4 h-100">
+                <div class="card-body">
+                    <h6 class="card-title text-muted"><i class="bi bi-airplane me-2"></i>Lucro - Aviator</h6>
+                    <p class="h5 text-primary">AOA @Model.Relatorio.LucroAviator.ToString("N2")</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6">
+            <div class="card border-0 shadow rounded-4 h-100 bg-success text-white">
+                <div class="card-body">
+                    <h6 class="card-title"><i class="bi bi-graph-up-arrow me-2"></i>Lucro Geral</h6>
+                    <p class="h4">AOA @Model.Relatorio.LucroGeral.ToString("N2")</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6">
+            <div class="card border-0 shadow rounded-4 h-100 bg-info text-white">
+                <div class="card-body">
+                    <h6 class="card-title"><i class="bi bi-cash-coin me-2"></i>Total Carteiras Gerais</h6>
+                    <p class="h4">AOA @Model.Relatorio.TotalCarteirasGeraisUsuarios.ToString("N2")</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6">
+            <div class="card border-0 shadow rounded-4 h-100">
+                <div class="card-body">
+                    <h6 class="card-title text-muted"><i class="bi bi-boxes me-2"></i>Total Investido - Investimento</h6>
+                    <p class="h5 text-primary">AOA @Model.Relatorio.TotalInvestidoCarteirasInvestimento.ToString("N2")</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6">
+            <div class="card border-0 shadow rounded-4 h-100">
+                <div class="card-body">
+                    <h6 class="card-title text-muted"><i class="bi bi-coin me-2"></i>Lucro - Carteira Investimento</h6>
+                    <p class="h5 text-primary">AOA @Model.Relatorio.TotalLucroCarteirasInvestimento.ToString("N2")</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card border-0 shadow rounded-4 bg-dark text-white">
+                <div class="card-body">
+                    <h6 class="card-title"><i class="bi bi-bar-chart-line me-2"></i>Total Geral - Carteira Investimento</h6>
+                    <p class="h4">AOA @Model.Relatorio.TotalGeralCarteiraInvestimento.ToString("N2")</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,78 @@
+﻿@page
+@model KwendaMoney.Pages.Admin.SaquesPendentesModel
+@{
+    ViewData["Title"] = "Saques Pendentes";
+}
+
+<h2 class="mb-4">Solicitações de Saque Pendentes</h2>
+
+<form method="get" class="row g-3 mb-4">
+    <div class="col-12 col-md-3">
+        <input type="text" name="BuscaNome" value="@Model.BuscaNome" placeholder="Buscar por nome" class="form-control" />
+    </div>
+    <div class="col-6 col-md-3">
+        <input type="date" name="DataInicial" value="@Model.DataInicial?.ToString("yyyy-MM-dd")" class="form-control" />
+    </div>
+    <div class="col-6 col-md-3">
+        <input type="date" name="DataFinal" value="@Model.DataFinal?.ToString("yyyy-MM-dd")" class="form-control" />
+    </div>
+    <div class="col-12 col-md-3">
+        <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+    </div>
+</form>
+
+@if (Model.Saques.Any())
+{
+        <form method="post">
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle text-nowrap">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Usuário</th>
+                            <th>Valor Solicitado</th>
+                            <th>Taxa</th>
+                            <th>Valor Líquido</th>
+                            <th>Conta de Destino</th>
+                            <th>Data</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var saque in Model.Saques)
+                    {
+                                <tr>
+                                    <td>@saque.Usuario?.Nome</td>
+                                    <td>AOA @saque.ValorSolicitado.ToString("N2")</td>
+                                    <td>AOA @saque.TaxaSaqueCarteiraGeral.ToString("N2")</td>
+                                    <td><strong>AOA @saque.ValorLiquido.ToString("N2")</strong></td>
+                                    <td>@saque.ContaDestino?.NomeBancoOuOperadora - @saque.ContaDestino?.NumeroOuIban</td>
+                                    <td>@saque.DataSolicitacao.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td class="d-flex gap-1 flex-wrap">
+                                        <button name="acao" value="aprovar_@saque.Id" class="btn btn-success btn-sm">Aprovar</button>
+                                        <button name="acao" value="rejeitar_@saque.Id" class="btn btn-danger btn-sm">Rejeitar</button>
+                                    </td>
+                                </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </form>
+
+        <nav>
+            <ul class="pagination flex-wrap">
+            @for (int i = 1; i <= Model.TotalPaginas; i++)
+            {
+                        <li class="page-item @(i == Model.Pagina ? "active" : "")">
+                            <a class="page-link"
+                               href="?Pagina=@i&BuscaNome=@Model.BuscaNome&DataInicial=@Model.DataInicial?.ToString("yyyy-MM-dd")&DataFinal=@Model.DataFinal?.ToString("yyyy-MM-dd")">
+                        @i
+                            </a>
+                        </li>
+            }
+            </ul>
+        </nav>
+}
+else
+{
+        <div class="alert alert-info">Nenhuma solicitação de saque pendente encontrada.</div>
+}

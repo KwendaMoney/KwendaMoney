@@ -1,0 +1,76 @@
+﻿@page
+@model KwendaMoney.Pages.SaqueUsuario.SolicitarSaqueModel
+@{
+    ViewData["Title"] = "Solicitar Saque";
+}
+
+<h2>Solicitar Saque</h2>
+
+@if (!string.IsNullOrEmpty(Model.MensagemErro))
+{
+        <div class="alert alert-danger">@Model.MensagemErro</div>
+}
+else if (!string.IsNullOrEmpty(Model.MensagemSucesso))
+{
+        <div class="alert alert-success">@Model.MensagemSucesso</div>
+}
+
+@if (Model.TemSaquePendente)
+{
+        <div class="alert alert-warning">
+            Você já possui uma solicitação de saque pendente. Aguarde a análise antes de solicitar novamente.
+        </div>
+}
+else if (Model.ContasUsuario.Any())
+{
+        <form method="post">
+            <div class="mb-3">
+                <label asp-for="Input.ContaId" class="form-label">Conta para receber</label>
+                <select asp-for="Input.ContaId" class="form-select"
+                        asp-items="@(new SelectList(Model.ContasUsuario, "Id", "Descricao"))">
+                    <option value="">Selecione uma conta</option>
+                </select>
+                <span asp-validation-for="Input.ContaId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.ValorSolicitado" class="form-label">Valor a sacar (AOA)</label>
+                <input asp-for="Input.ValorSolicitado" type="number" class="form-control" id="valorInput" oninput="atualizarTaxa()" />
+                <span asp-validation-for="Input.ValorSolicitado" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <p><strong>Taxa (5%):</strong> <span id="taxaValor">AOA 0,00</span></p>
+                <p><strong>Valor líquido a receber:</strong> <span id="liquidoValor">AOA 0,00</span></p>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Solicitar Saque</button>
+        </form>
+}
+else
+{
+        <div class="alert alert-warning">
+            Você ainda não cadastrou nenhuma conta para saque. Por favor, cadastre uma antes de solicitar.
+        </div>
+}
+
+@section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+        <script>
+            function atualizarTaxa() {
+                const input = document.getElementById('valorInput');
+                const valor = parseFloat(input.value.replace(',', '.'));
+
+                if (!isNaN(valor) && valor >= 500 && valor <= 500000) {
+                    const taxa = valor * 0.05;
+                    const liquido = valor - taxa;
+
+                    document.getElementById('taxaValor').innerText = `AOA ${taxa.toLocaleString('pt-AO', { minimumFractionDigits: 2 })}`;
+                    document.getElementById('liquidoValor').innerText = `AOA ${liquido.toLocaleString('pt-AO', { minimumFractionDigits: 2 })}`;
+                } else {
+                    document.getElementById('taxaValor').innerText = `AOA 0,00`;
+                    document.getElementById('liquidoValor').innerText = `AOA 0,00`;
+                }
+            }
+        </script>
+}

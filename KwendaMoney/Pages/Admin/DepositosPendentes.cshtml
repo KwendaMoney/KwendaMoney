@@ -1,0 +1,77 @@
+﻿@page
+@model KwendaMoney.Pages.Admin.DepositosPendentesModel
+@{
+    ViewData["Title"] = "Depósitos Pendentes";
+}
+
+<h2 class="mb-4">Depósitos Pendentes</h2>
+
+<form method="get" class="row g-3 mb-4">
+    <div class="col-12 col-sm-6 col-md-3">
+        <input type="text" class="form-control" name="BuscaNome" value="@Model.BuscaNome" placeholder="Buscar por nome do usuário" />
+    </div>
+    <div class="col-12 col-sm-6 col-md-3">
+        <input type="date" class="form-control" name="DataInicial" value="@Model.DataInicial?.ToString("yyyy-MM-dd")" />
+    </div>
+    <div class="col-12 col-sm-6 col-md-3">
+        <input type="date" class="form-control" name="DataFinal" value="@Model.DataFinal?.ToString("yyyy-MM-dd")" />
+    </div>
+    <div class="col-12 col-sm-6 col-md-3">
+        <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+    </div>
+</form>
+
+@if (Model.Depositos.Any())
+{
+        <form method="post">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped align-middle text-nowrap">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Usuário</th>
+                            <th>Valor Informado</th>
+                            <th>Tipo</th>
+                            <th>Conta Destino</th>
+                            <th>ID Transação</th>
+                            <th>Comprovativo</th>
+                            <th>Valor Corrigido</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @for (int i = 0; i < Model.Depositos.Count; i++)
+                    {
+                        var d = Model.Depositos[i];
+                            <tr>
+                                <td>@d.Usuario?.Nome</td>
+                                <td>@("AOA " + d.ValorInformado.ToString("N2"))</td>
+                                <td>@d.TipoDeposito</td>
+                                <td>@d.ContaAdmin?.NomeBancoOuOperadora - @d.ContaAdmin?.NumeroOuIban</td>
+                                <td>@d.IdTransacao</td>
+                                <td>
+                                    <a href="@d.CaminhoComprovativo" target="_blank">Ver Comprovativo</a>
+                                </td>
+                                <td>
+                                    <input type="hidden" name="Ids[@i]" value="@d.Id" />
+                                    <div class="input-group">
+                                        <span class="input-group-text">AOA</span>
+                                        <input type="number" step="0.01" class="form-control" name="ValoresCorrigidos[@i]" value="@d.ValorInformado.ToString("F2")" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-wrap gap-1">
+                                        <button name="acao" value="aprovar_@d.Id" class="btn btn-success btn-sm">Aprovar</button>
+                                        <button name="acao" value="rejeitar_@d.Id" class="btn btn-danger btn-sm">Rejeitar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </form>
+}
+else
+{
+        <div class="alert alert-info">Não há depósitos pendentes no momento.</div>
+}
